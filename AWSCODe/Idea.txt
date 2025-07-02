@@ -1,7 +1,0 @@
-
-
-Approach	Free Tier Safe?	No S3 PUTs?	Scalable?	Recommended?
-Docker on EC2	✅ Yes	✅ Yes	✅ Basic	✅ Best Fit
-
-
-I am good to proceed , but once last question , my goal is to use ollama in the lambda is that possible with this ?
