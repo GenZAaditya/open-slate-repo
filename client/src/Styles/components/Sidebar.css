@@ -6,6 +6,63 @@
   padding: 20px 0;
   display: flex;
   flex-direction: column;
+  transition: transform 0.3s ease;
+  position: relative;
+  z-index: 999;
+}
+
+/* Mobile sidebar styles */
+.sidebar--mobile {
+  position: fixed;
+  top: 0;
+  left: 0;
+  transform: translateX(-100%);
+  box-shadow: var(--shadow-lg);
+}
+
+.sidebar--mobile.sidebar--open {
+  transform: translateX(0);
+}
+
+/* Desktop sidebar - always visible */
+@media (min-width: 1024px) {
+  .sidebar {
+    position: static;
+    transform: none !important;
+  }
+  
+  .sidebar--mobile {
+    position: static;
+    transform: none !important;
+    box-shadow: none;
+  }
+}
+
+/* Close button for mobile */
+.sidebar__close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: var(--border-radius-sm);
+  color: var(--color-text-secondary);
+  transition: all 0.2s ease;
+  z-index: 1001;
+}
+
+.sidebar__close-btn:hover {
+  background-color: var(--color-sidebar-item-hover);
+  color: var(--color-text-primary);
+}
+
+/* Hide close button on desktop */
+@media (min-width: 1024px) {
+  .sidebar__close-btn {
+    display: none;
+  }
 }
 
 .sidebar__logo {
@@ -190,4 +247,62 @@
   font-size: 12px;
   color: var(--color-text-secondary);
   transition: color 0.3s ease;
+}
+
+/* Tablet and mobile responsive styles */
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 280px; /* Slightly wider on mobile for easier touch */
+  }
+  
+  .sidebar__logo {
+    padding-top: 3rem; /* Account for close button */
+  }
+  
+  .sidebar__item {
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-size: var(--font-size-base); /* Larger text for mobile */
+  }
+  
+  .sidebar__icon {
+    width: 18px;
+    height: 18px;
+    margin-right: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100vw;
+    max-width: 320px;
+  }
+  
+  .sidebar__section-title {
+    font-size: 13px;
+    padding: 0 var(--spacing-lg);
+  }
+  
+  .sidebar__org-selector {
+    margin: 0 var(--spacing-md) var(--spacing-lg);
+    padding: var(--spacing-md);
+  }
+  
+  .sidebar__user {
+    padding: var(--spacing-md) var(--spacing-lg);
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar {
+    width: 85vw;
+    max-width: 280px;
+  }
+  
+  .sidebar__logo-title {
+    font-size: 20px;
+  }
+  
+  .sidebar__item {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
 }
