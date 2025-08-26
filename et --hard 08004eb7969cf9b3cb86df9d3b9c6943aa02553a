@@ -1,0 +1,17 @@
+[33mcommit 51de25ddfcee26f870edad3886fcb1a9354b6a1c[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: Aaditya-Senthil <aadityasenthi@gmail.com>
+Date:   Mon Aug 25 11:18:25 2025 +0530
+
+    Fix mail issue moved api inside pages folder
+
+[33mcommit fdddc29f8a295935f05fe17c29e1d389cdc309c9[m
+Author: Aaditya-Senthil <aadityasenthi@gmail.com>
+Date:   Thu Jul 3 01:42:33 2025 +0530
+
+    Delete all files
+
+[33mcommit 08004eb7969cf9b3cb86df9d3b9c6943aa02553a[m[33m ([m[1;31morigin/master[m[33m)[m
+Author: Aaditya-Senthil <aadityasenthi@gmail.com>
+Date:   Thu Jul 3 01:22:42 2025 +0530
+
+    Initial commit
