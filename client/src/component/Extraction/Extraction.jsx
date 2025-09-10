@@ -19,7 +19,6 @@ const Extraction = () => {
   const EXTRACTION_API = "https://fn3yrpr3gl.execute-api.ap-south-1.amazonaws.com/Production/extraction";
   const STATUS_API_BASE = "https://fn3yrpr3gl.execute-api.ap-south-1.amazonaws.com/Production/status";
 
-  // Field management
   const handleAddField = () => {
     if (newField.FieldName.trim()) {
       setFields([...fields, { name: newField.FieldName, type: newField.Datatype }]);
@@ -36,7 +35,6 @@ const Extraction = () => {
     setNewField(prev => ({ ...prev, [name]: value }));
   };
 
-  // Generate schema
   const generateSchema = () => {
     const properties = {};
     fields.forEach(field => {
@@ -50,7 +48,6 @@ const Extraction = () => {
     };
   };
 
-  // Simple API call
   const makeApiCall = async (url, method, body = null) => {
     const config = {
       method,
@@ -72,7 +69,6 @@ const Extraction = () => {
     return response.json();
   };
 
-  // Check status
   const checkStatus = async (jobId) => {
     try {
       const data = await makeApiCall(`${STATUS_API_BASE}/${jobId}`, 'GET');
@@ -82,14 +78,14 @@ const Extraction = () => {
         setExtractionResult(data.data);
         setIsLoading(false);
         setStatusMessage('Extraction completed!');
-        return true; // Stop polling
+        return true;
       } else if (data.success && data.overall_status === 'FAILED') {
         setIsLoading(false);
         setStatusMessage('Extraction failed. Please try again.');
-        return true; // Stop polling
+        return true;
       } else {
         setStatusMessage(`Status: ${data.overall_status || 'Processing'}`);
-        return false; // Continue polling
+        return false;
       }
     } catch (error) {
       console.error('Status check failed:', error);
@@ -98,7 +94,6 @@ const Extraction = () => {
     }
   };
 
-  // Simple polling
   const startPolling = (jobId) => {
     let attempts = 0;
     const maxAttempts = 4;
@@ -117,15 +112,12 @@ const Extraction = () => {
         return;
       }
       
-      // Continue polling
       setTimeout(poll, 5000);
     };
     
-    // Start first poll after 3 seconds
     setTimeout(poll, 3000);
   };
 
-  // Start extraction
   const handleExtraction = async () => {
     if (!uploadedFiles.length) {
       alert("Please upload a file first");
@@ -181,7 +173,6 @@ const Extraction = () => {
     }
   };
 
-  // Manual status check
   const handleStatusCheck = () => {
     if (currentJobId) {
       checkStatus(currentJobId);
@@ -190,7 +181,6 @@ const Extraction = () => {
     }
   };
 
-  // Reset
   const handleReset = () => {
     setIsLoading(false);
     setExtractionResult(null);
@@ -199,123 +189,137 @@ const Extraction = () => {
   };
 
   return (
-<div className="extraction">
-  <div className="extraction__tabs">
-    <button className="extraction__tab extraction__tab--active">Schema</button>
-  </div>
-
-  <div className="extraction__content">
-    <div className="extraction__panel--left">
-      <div className="extraction__agent-config">
-        <h2>Agent Configuration</h2>
-
-        <div className="extraction__fields">
-          {fields.map((field, index) => (
-            <div className="extraction__field" key={index}>
-              <div className="extraction__field-name">{field.name}</div>
-              <div className="extraction__field-type">{field.type}</div>
-              <button
-                className="extraction__remove-btn"
-                onClick={() => handleRemoveField(index)}
-              >
-                ✕
-              </button>
-            </div>
-          ))}
-        </div>
-
-        <div className="extraction__new-field">
-          <input
-            type="text"
-            name="FieldName"
-            value={newField.FieldName}
-            onChange={handleInputChange}
-            placeholder="Enter Field Name"
-          />
-          <select
-            name="Datatype"
-            value={newField.Datatype}
-            onChange={handleInputChange}
-          >
-            <option value="string">string</option>
-            <option value="number">number</option>
-            <option value="boolean">boolean</option>
-            <option value="object">object</option>
-            <option value="array">array</option>
-          </select>
-        </div>
-
-        <button className="extraction__add-field-btn" onClick={handleAddField}>
-          + Add Field
+    <div className="flex-1 bg-background overflow-y-auto">
+      <div className="border-b border-border bg-background-alt">
+        <button className="px-4 py-2 bg-primary text-white border-b-2 border-primary rounded-t-md transition-colors duration-200">
+          Schema
         </button>
+      </div>
 
-        {(isLoading || statusMessage) && (
-          <div className="extraction__status">
-            <h3>Extraction Status:</h3>
-            {currentJobId && <p><strong>Job ID:</strong> {currentJobId}</p>}
-            {statusMessage && <p><strong>Message:</strong> {statusMessage}</p>}
-            {isLoading && (
-              <div className="extraction__loading">
-                <div className="extraction__spinner"></div>
-                <span>Processing...</span>
-              </div>
-            )}
-          </div>
-        )}
+      <div className="flex h-full">
+        <div className="w-1/2 p-6 bg-background-alt border-r border-border">
+          <div className="h-full">
+            <h2 className="text-xl font-semibold text-text-primary mb-6">Agent Configuration</h2>
 
-        <div className="extraction__actions">
-          <button 
-            className="extraction__action-btn"
-            onClick={handleExtraction}
-            disabled={isLoading}
-          >
-            {isLoading ? 'Processing...' : 'Start Extraction'}
-          </button>
-
-          {currentJobId && (
-            <>
-              <button 
-                className="extraction__status-btn"
-                onClick={handleStatusCheck}
-                disabled={isLoading}
-              >
-                Check Status
-              </button>
-              <button 
-                className="extraction__reset-btn"
-                onClick={handleReset}
-              >
-                Reset
-              </button>
-            </>
-          )}
-        </div>
-
-        {extractionResult && extractionResult.data && (
-          <div className="extraction__results">
-            <h3>Extraction Results:</h3>
-            <div className="extraction__results-container">
-              {Object.entries(extractionResult.data).map(([question, answer]) => (
-                <div key={question} className="extraction__result-item">
-                  <div className="extraction__question"><strong>{question}</strong></div>
-                  <div className="extraction__answer">{answer}</div>
+            <div className="space-y-3 mb-6">
+              {fields.map((field, index) => (
+                <div className="flex items-center gap-3 p-3 bg-background rounded-md border border-border" key={index}>
+                  <div className="flex-1 font-medium text-text-primary">{field.name}</div>
+                  <div className="text-sm text-text-secondary px-2 py-1 bg-background-alt rounded">{field.type}</div>
+                  <button
+                    className="w-6 h-6 flex items-center justify-center text-red-500 hover:bg-red-50 rounded transition-colors duration-200"
+                    onClick={() => handleRemoveField(index)}
+                  >
+                    ✕
+                  </button>
                 </div>
               ))}
             </div>
+
+            <div className="space-y-3 mb-4">
+              <input
+                type="text"
+                name="FieldName"
+                value={newField.FieldName}
+                onChange={handleInputChange}
+                placeholder="Enter Field Name"
+                className="w-full px-3 py-2 border border-border rounded-md bg-background text-text-primary placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              />
+              <select
+                name="Datatype"
+                value={newField.Datatype}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 border border-border rounded-md bg-background text-text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              >
+                <option value="string">string</option>
+                <option value="number">number</option>
+                <option value="boolean">boolean</option>
+                <option value="object">object</option>
+                <option value="array">array</option>
+              </select>
+            </div>
+
+            <button 
+              className="w-full px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded-md font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 mb-6"
+              onClick={handleAddField}
+            >
+              + Add Field
+            </button>
+
+            {(isLoading || statusMessage) && (
+              <div className="bg-background-alt border border-border rounded-lg p-4 mb-6">
+                <h3 className="font-semibold text-text-primary mb-3">Extraction Status:</h3>
+                {currentJobId && <p className="text-sm text-text-secondary mb-2"><strong>Job ID:</strong> {currentJobId}</p>}
+                {statusMessage && <p className="text-sm text-text-secondary mb-3"><strong>Message:</strong> {statusMessage}</p>}
+                {isLoading && (
+                  <div className="flex items-center gap-3">
+                    <div className="w-5 h-5 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+                    <span className="text-text-secondary">Processing...</span>
+                  </div>
+                )}
+              </div>
+            )}
+
+            <div className="flex flex-col gap-3">
+              <button 
+                className={`px-4 py-2 rounded-md font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 ${
+                  isLoading 
+                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed' 
+                    : 'bg-primary hover:bg-primary-dark text-white focus:ring-primary'
+                }`}
+                onClick={handleExtraction}
+                disabled={isLoading}
+              >
+                {isLoading ? 'Processing...' : 'Start Extraction'}
+              </button>
+
+              {currentJobId && (
+                <div className="flex gap-2">
+                  <button 
+                    className={`flex-1 px-4 py-2 rounded-md font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 ${
+                      isLoading 
+                        ? 'bg-gray-300 text-gray-500 cursor-not-allowed' 
+                        : 'bg-accent hover:bg-orange-600 text-white focus:ring-accent'
+                    }`}
+                    onClick={handleStatusCheck}
+                    disabled={isLoading}
+                  >
+                    Check Status
+                  </button>
+                  <button 
+                    className="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-md font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+                    onClick={handleReset}
+                  >
+                    Reset
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {extractionResult && extractionResult.data && (
+              <div className="mt-6 bg-background-alt border border-border rounded-lg p-4">
+                <h3 className="font-semibold text-text-primary mb-4">Extraction Results:</h3>
+                <div className="space-y-3">
+                  {Object.entries(extractionResult.data).map(([question, answer]) => (
+                    <div key={question} className="p-3 bg-background rounded-md border border-border">
+                      <div className="font-medium text-text-primary mb-2">{question}</div>
+                      <div className="text-text-secondary">{answer}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
-        )}
+        </div>
+
+        <div className="w-1/2 p-6">
+          <FileUpload
+            onFilesSelected={setUploadedFiles}
+            value={uploadedFiles}
+          />
+        </div>
       </div>
     </div>
-
-    <div className="extraction__panel--right">
-      <FileUpload
-        onFilesSelected={setUploadedFiles}
-        value={uploadedFiles}
-      />
-    </div>
-  </div>
-</div>
-
   );
 };
 

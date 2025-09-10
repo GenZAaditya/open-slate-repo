@@ -1,19 +1,17 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import Router from '../Router';
-import '../Styles/main.css';
-import Breadcrumb from './BreadCrum';
-
+import Breadcrumb from './Breadcrum';
 
 const MainContent = () => {
   const location = useLocation();
   
   return (
-    <div className="main-content">
-      <div className="main-content__breadcrumb">
+    <div className="flex-1 bg-background overflow-y-auto">
+      <div className="">
         <Breadcrumb />
       </div>
-      <div className="main-content__router">
+      <div className="">
         <Router />
       </div>
     </div>

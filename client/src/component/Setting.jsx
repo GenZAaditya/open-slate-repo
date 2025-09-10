@@ -31,94 +31,104 @@ const Settings = () => {
   };
 
   return (
-    <div className="settings">
-      <div className="settings__header">
-        <h1 className="settings__title">Settings</h1>
-        <p className="settings__subtitle">Customize your application preferences</p>
+    <div className="max-w-4xl mx-auto p-6">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-text-primary mb-2">Settings</h1>
+        <p className="text-text-secondary">Customize your application preferences</p>
       </div>
 
-      <div className="settings__content">
-        <div className="settings__section">
-          <h2 className="settings__section-title">Appearance</h2>
+      <div className="space-y-8">
+        <div className="bg-background-alt p-6 rounded-lg border border-border">
+          <h2 className="text-xl font-semibold text-text-primary mb-4">Appearance</h2>
           
-          <div className="settings__option">
-            <div className="settings__option-info">
-              <h3 className="settings__option-title">Theme</h3>
-              <p className="settings__option-description">
+          <div className="flex items-center justify-between p-4 bg-background rounded-md border border-border">
+            <div>
+              <h3 className="text-base font-medium text-text-primary mb-1">Theme</h3>
+              <p className="text-sm text-text-secondary">
                 Choose between light and dark mode for a comfortable viewing experience
               </p>
             </div>
             
-            <div className="settings__toggle-container">
-              <span className="settings__toggle-label">
+            <div className="flex items-center gap-3">
+              <span className="text-sm font-medium text-text-secondary">
                 {isDarkMode ? 'Dark' : 'Light'}
               </span>
               <button 
-                className={`settings__toggle ${isDarkMode ? 'settings__toggle--active' : ''}`}
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${
+                  isDarkMode ? 'bg-primary' : 'bg-gray-300'
+                }`}
                 onClick={handleThemeToggle}
                 aria-label={`Switch to ${isDarkMode ? 'light' : 'dark'} mode`}
               >
-                <span className="settings__toggle-slider"></span>
+                <span
+                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200 ${
+                    isDarkMode ? 'translate-x-6' : 'translate-x-1'
+                  }`}
+                />
               </button>
             </div>
           </div>
         </div>
 
-        <div className="settings__section">
-          <h2 className="settings__section-title">General</h2>
+        <div className="bg-background-alt p-6 rounded-lg border border-border">
+          <h2 className="text-xl font-semibold text-text-primary mb-4">General</h2>
           
-          <div className="settings__option">
-            <div className="settings__option-info">
-              <h3 className="settings__option-title">Language</h3>
-              <p className="settings__option-description">
-                Select your preferred language
-              </p>
+          <div className="space-y-4">
+            <div className="flex items-center justify-between p-4 bg-background rounded-md border border-border">
+              <div>
+                <h3 className="text-base font-medium text-text-primary mb-1">Language</h3>
+                <p className="text-sm text-text-secondary">
+                  Select your preferred language
+                </p>
+              </div>
+              <select className="px-3 py-2 border border-border rounded-md bg-background text-text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                <option value="en">English</option>
+                <option value="es">Spanish</option>
+                <option value="fr">French</option>
+              </select>
             </div>
-            <select className="settings__select">
-              <option value="en">English</option>
-              <option value="es">Spanish</option>
-              <option value="fr">French</option>
-            </select>
-          </div>
 
-          <div className="settings__option">
-            <div className="settings__option-info">
-              <h3 className="settings__option-title">Notifications</h3>
-              <p className="settings__option-description">
-                Receive notifications about your extractions
-              </p>
+            <div className="flex items-center justify-between p-4 bg-background rounded-md border border-border">
+              <div>
+                <h3 className="text-base font-medium text-text-primary mb-1">Notifications</h3>
+                <p className="text-sm text-text-secondary">
+                  Receive notifications about your extractions
+                </p>
+              </div>
+              <button className="relative inline-flex h-6 w-11 items-center rounded-full bg-gray-300 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
+                <span className="inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200 translate-x-1" />
+              </button>
             </div>
-            <button className="settings__toggle">
-              <span className="settings__toggle-slider"></span>
-            </button>
           </div>
         </div>
 
-        <div className="settings__section">
-          <h2 className="settings__section-title">Account</h2>
+        <div className="bg-background-alt p-6 rounded-lg border border-border">
+          <h2 className="text-xl font-semibold text-text-primary mb-4">Account</h2>
           
-          <div className="settings__option">
-            <div className="settings__option-info">
-              <h3 className="settings__option-title">Profile</h3>
-              <p className="settings__option-description">
-                Manage your account information
-              </p>
+          <div className="space-y-4">
+            <div className="flex items-center justify-between p-4 bg-background rounded-md border border-border">
+              <div>
+                <h3 className="text-base font-medium text-text-primary mb-1">Profile</h3>
+                <p className="text-sm text-text-secondary">
+                  Manage your account information
+                </p>
+              </div>
+              <button className="px-4 py-2 bg-border text-text-primary rounded-md hover:bg-opacity-80 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
+                Edit Profile
+              </button>
             </div>
-            <button className="settings__button settings__button--secondary">
-              Edit Profile
-            </button>
-          </div>
 
-          <div className="settings__option">
-            <div className="settings__option-info">
-              <h3 className="settings__option-title">API Keys</h3>
-              <p className="settings__option-description">
-                Manage your API access keys
-              </p>
+            <div className="flex items-center justify-between p-4 bg-background rounded-md border border-border">
+              <div>
+                <h3 className="text-base font-medium text-text-primary mb-1">API Keys</h3>
+                <p className="text-sm text-text-secondary">
+                  Manage your API access keys
+                </p>
+              </div>
+              <button className="px-4 py-2 bg-border text-text-primary rounded-md hover:bg-opacity-80 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
+                Manage Keys
+              </button>
             </div>
-            <button className="settings__button settings__button--secondary">
-              Manage Keys
-            </button>
           </div>
         </div>
       </div>

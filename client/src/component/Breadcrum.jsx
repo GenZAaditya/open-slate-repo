@@ -41,9 +41,9 @@ const Breadcrumb = () => {
   };
 
 return (
-    <div className="breadcrumb">
-      <div className="breadcrumb__header">
-        <nav className="breadcrumb__nav">
+    <div className="p-md border-b border-border bg-background-alt transition-all duration-300">
+      <div className="flex items-center justify-between">
+        <nav className="flex items-center space-x-1 text-sm">
           {pathnames.length > 0 ? (
             <>
               {pathnames.map((name, index) => {
@@ -51,22 +51,29 @@ return (
                 const isLast = index === pathnames.length - 1;
 
                 return isLast ? (
-                  <span key={name} className="breadcrumb__current">{name.charAt(0).toUpperCase() + name.slice(1)}</span>
+                  <span key={name} className="font-medium bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                    {name.charAt(0).toUpperCase() + name.slice(1)}
+                  </span>
                 ) : (
                   <React.Fragment key={name}>
-                    <Link to={routeTo} className="breadcrumb__link">{name.charAt(0).toUpperCase() + name.slice(1)}</Link>
-                    <span className="breadcrumb__separator"> › </span>
+                    <Link 
+                      to={routeTo} 
+                      className="text-text-secondary hover:text-primary transition-colors duration-200 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-gradient-to-r after:from-primary after:to-accent after:transition-all after:duration-300 hover:after:w-full"
+                    >
+                      {name.charAt(0).toUpperCase() + name.slice(1)}
+                    </Link>
+                    <span className="text-text-secondary mx-2"> › </span>
                   </React.Fragment>
                 );
               })}
             </>
           ) : (
-            <span className="breadcrumb__current">Home</span>
+            <span className="font-medium bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Home</span>
           )}
         </nav>
         
         <button 
-          className="breadcrumb__theme-toggle"
+          className="px-4 py-2 rounded-lg transition-all duration-300 text-sm font-medium bg-gradient-to-r from-primary to-accent text-white hover:shadow-lg hover:shadow-primary/25 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary/50"
           onClick={handleThemeToggle}
           aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
         >
@@ -74,7 +81,9 @@ return (
         </button>
       </div>
       
-      <h1 className="breadcrumb__title">{params.name || getCurrentPageTitle()}</h1>
+      <h1 className="text-2xl font-bold mt-4 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-gradient-to-r after:from-primary after:to-accent after:transition-all after:duration-500 hover:after:w-full">
+        {params.name || getCurrentPageTitle()}
+      </h1>
     </div>
   );
 };
